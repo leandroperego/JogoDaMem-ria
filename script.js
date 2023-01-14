@@ -6,38 +6,47 @@ let arrayNumeros = criarArrayNumerica(1, numeroDeImagens);
 
 let dadosJogo = {
     cartasViradas : [],
+    bloquearCliques: false,
 }
 
 iniciarTempo();
 setarImagensNasDivs();
 
 secoesCards.forEach(card => {
-    card.addEventListener(`click`, acaoDoJogo);
+        card.addEventListener(`click`, acaoDoJogo);
 });
 
-function acaoDoJogo(){
-    let imagemDaDiv = this.children[0];
-        imagemDaDiv.className = "exibir";
 
-        if (verificarJogo()){
-            if (verificarMesmasImagens()){
-                secoesCards.forEach(card => {
-                    dadosJogo.cartasViradas.forEach(cardVirada => {
-                        if (card.children[0] == cardVirada){
-                            card.children[0].className = "";
-                            card.removeEventListener(`click`, acaoDoJogo);
-                        }
+function acaoDoJogo(){
+    if (!dadosJogo.bloquearCliques){
+
+        let imagemDaDiv = this.children[0];
+            imagemDaDiv.className = "exibir";
+    
+            if (verificarJogo()){
+                if (verificarMesmasImagens()){
+                    secoesCards.forEach(card => {
+                        dadosJogo.cartasViradas.forEach(cardVirada => {
+                            if (card.children[0] == cardVirada){
+                                card.children[0].className = "";
+                                card.removeEventListener(`click`, acaoDoJogo);
+                            }
+                        });
+                        
                     });
-                    
-                });
-            }else {
-                if (dadosJogo.cartasViradas.length > 2){
-                    dadosJogo.cartasViradas.forEach(card => {
-                        card.className = "esconder";
-                    });
+                }else {
+                    dadosJogo.bloquearCliques = true;
+                    let intervalo = setInterval(function(){
+                        dadosJogo.cartasViradas.forEach(card => {
+                            card.className = "esconder";
+                            clearInterval(intervalo);
+                            dadosJogo.bloquearCliques = false;
+                        });
+                    }, 1000);
+    
                 }
             }
-        }
+    }
     }
 
 function verificarJogo(){
@@ -49,8 +58,8 @@ function verificarJogo(){
             dadosJogo.cartasViradas.push(card.children[0]);
         }
     });
-
-    return qtasViradas >= 2;
+    console.log(qtasViradas)
+    return qtasViradas == 2;
 }
 
 function verificarMesmasImagens(){
