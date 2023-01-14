@@ -8,6 +8,7 @@ let dadosJogo = {
     cartasViradas : [],
 }
 
+iniciarTempo();
 setarImagensNasDivs();
 
 secoesCards.forEach(card => {
@@ -30,7 +31,6 @@ function acaoDoJogo(){
                     
                 });
             }else {
-                // console.log("diferentes");
                 if (dadosJogo.cartasViradas.length > 2){
                     dadosJogo.cartasViradas.forEach(card => {
                         card.className = "esconder";
@@ -97,4 +97,32 @@ function criarArrayNumerica(inicio, fim){
 
 function sortear(limite){
     return Math.floor(Math.random() * limite);
+}
+
+function iniciarTempo(){
+    let spanMinutos = document.querySelector("#minutos");
+    let spanSegundos = document.querySelector("#segundos");
+
+    setInterval(function(){
+        let segundos = +spanSegundos.textContent;
+        let minutos = +spanMinutos.textContent;
+        
+        segundos++;
+        if (segundos < 10){
+            spanSegundos.textContent = `0${segundos}`;
+        }else{
+            spanSegundos.textContent = segundos;
+        }
+
+        if(segundos == 60){
+            spanSegundos.textContent = "00";
+            minutos++;
+
+            if (minutos < 10){
+                spanMinutos.textContent = `0${minutos}`;
+            }else{
+                spanMinutos.textContent = minutos;
+            }
+        }
+    },1000);
 }
