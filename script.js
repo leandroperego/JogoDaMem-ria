@@ -31,9 +31,13 @@ function acaoDoJogo(){
                                 back.classList.remove("virada");
                                 back.parentElement.removeEventListener(`click`, acaoDoJogo);
                             }
+                            setTimeout(()=>{
+                                cardVirada.classList.add("opacity");
+                            }, 800);
                         });
                         
                     });
+
                 }else {
                     dadosJogo.bloquearCliques = true;
                     let intervalo = setInterval(function(){
