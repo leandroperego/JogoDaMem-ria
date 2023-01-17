@@ -7,6 +7,7 @@ let arrayNumeros = criarArrayNumerica(1, numeroDeImagens);
 let dadosJogo = {
     cartasViradas : [],
     bloquearCliques: false,
+    jaViradas: [],
 }
 
 iniciarTempo();
@@ -16,6 +17,12 @@ backs.forEach(back => {
         back.parentElement.addEventListener(`click`, acaoDoJogo);
 });
 
+let verificarFim = setInterval(() => {
+    if(verificarJogoAcabou()){
+        clearInterval(verificarFim);
+        alert("Parabéns");
+    }
+}, 500);
 
 function acaoDoJogo(){
     
@@ -30,9 +37,12 @@ function acaoDoJogo(){
                             if (back == cardVirada){
                                 back.classList.remove("virada");
                                 back.parentElement.removeEventListener(`click`, acaoDoJogo);
+                                dadosJogo.jaViradas.push(cardVirada.parentElement);
                             }
+
                             setTimeout(()=>{
                                 cardVirada.classList.add("opacity");
+                                cardVirada.parentElement.children[0].classList.add("opacity");
                             }, 800);
                         });
                         
@@ -96,6 +106,10 @@ function sortearImagem(){
 }
 
 //-------------------------------------------
+
+function verificarJogoAcabou(){
+    return dadosJogo.jaViradas.length == 20;
+}
 
 function criarArrayNumerica(inicio, fim){
     let array = [];

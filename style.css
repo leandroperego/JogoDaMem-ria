@@ -9,7 +9,7 @@
 }
 
 body{
-    background-color: rgba(128, 0, 0, 0.8);
+    background-color: rgb(4, 73, 24);
 }
 
 main{
@@ -50,7 +50,7 @@ footer{
     flex-direction: column;
     padding: 2rem;
     gap: 1rem;
-    background-color: rgb(222, 184, 135);
+    background-color: rgb(255, 255, 255);
 }
 
 .linha{
@@ -76,6 +76,9 @@ footer{
     height: 100%;
     position: absolute;
     border: 3px solid white;
+    box-shadow: 10px 10px 8px 0px rgba(0,0,0,0.63);
+-webkit-box-shadow: 10px 10px 8px 0px rgba(0,0,0,0.63);
+-moz-box-shadow: 10px 10px 8px 0px rgba(0,0,0,0.63);
 }
 
 .front{
@@ -101,4 +104,7 @@ footer{
     transition: all 500ms;
     border: none;
     opacity: 0.4;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
 }
