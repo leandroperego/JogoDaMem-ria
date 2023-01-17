@@ -62,21 +62,37 @@ footer{
 
 .cards{
     width: calc(100%/4);
+    position: relative;
+    transform-style: preserve-3d;
+    transition: all 400ms ease-in-out;
+}
+
+.flip{
+    transform: rotateY(180deg);
+}
+
+.front, .back{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.front{
     border: 3px solid white;
     background-color: gray;
     border-radius: 10px;
     display: flex;
 }
 
-.cards img{
-    width: 100%;
+.back{
     border-radius: 10px;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.exibir{
-    display: block;
-}
+.virada{
 
-.esconder{
-    display: none;
 }

@@ -1,4 +1,4 @@
-let secoesCards = document.querySelectorAll(".cards");
+let backs = document.querySelectorAll(".back");
 let board = document.querySelector("#board");
 
 let numeroDeImagens = 10;
@@ -12,24 +12,24 @@ let dadosJogo = {
 iniciarTempo();
 setarImagensNasDivs();
 
-secoesCards.forEach(card => {
-        card.addEventListener(`click`, acaoDoJogo);
+backs.forEach(back => {
+        back.parentElement.addEventListener(`click`, acaoDoJogo);
 });
 
 
 function acaoDoJogo(){
+    
     if (!dadosJogo.bloquearCliques){
-
-        let imagemDaDiv = this.children[0];
-            imagemDaDiv.className = "exibir";
+        this.style.transform = "rotateY(180deg)";
+        this.children[1].classList.add("virada");
     
             if (verificarJogo()){
                 if (verificarMesmasImagens()){
-                    secoesCards.forEach(card => {
+                    backs.forEach(back => {
                         dadosJogo.cartasViradas.forEach(cardVirada => {
-                            if (card.children[0] == cardVirada){
-                                card.children[0].className = "";
-                                card.removeEventListener(`click`, acaoDoJogo);
+                            if (back == cardVirada){
+                                back.classList.remove("virada");
+                                back.parentElement.removeEventListener(`click`, acaoDoJogo);
                             }
                         });
                         
@@ -38,7 +38,8 @@ function acaoDoJogo(){
                     dadosJogo.bloquearCliques = true;
                     let intervalo = setInterval(function(){
                         dadosJogo.cartasViradas.forEach(card => {
-                            card.className = "esconder";
+                            card.parentElement.style.transform = "rotateY(0)";
+                            card.classList.remove("virada");
                             clearInterval(intervalo);
                             dadosJogo.bloquearCliques = false;
                         });
@@ -52,10 +53,10 @@ function acaoDoJogo(){
 function verificarJogo(){
     let qtasViradas = 0;
     dadosJogo.cartasViradas = [];
-    secoesCards.forEach(card => {
-        if (card.children[0].className == "exibir"){
+    backs.forEach(back => {
+        if (back.classList.contains("virada")){
             qtasViradas++;
-            dadosJogo.cartasViradas.push(card.children[0]);
+            dadosJogo.cartasViradas.push(back);
         }
     });
     console.log(qtasViradas)
@@ -63,13 +64,12 @@ function verificarJogo(){
 }
 
 function verificarMesmasImagens(){
-    return dadosJogo.cartasViradas[0].src == dadosJogo.cartasViradas[1].src;
+    return dadosJogo.cartasViradas[0].style.backgroundImage == dadosJogo.cartasViradas[1].style.backgroundImage;
 }
 
 function setarImagensNasDivs(){
-    secoesCards.forEach(card => {
-        let img = criarElemento("img", sortearImagem(), "", card);
-        img.classList.add("esconder");
+    backs.forEach(div => {
+        div.style.backgroundImage = `url(${sortearImagem()})`;
     })
 }
 
