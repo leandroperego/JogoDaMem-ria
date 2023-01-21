@@ -67,11 +67,6 @@ footer{
     perspective: 500px;
 }
 
-.notransition{
-    transform: rotateY(180deg);
-    transition: all 0s;
-}
-
 .flip{
     transform: rotateY(180deg);
 }

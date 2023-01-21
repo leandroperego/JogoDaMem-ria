@@ -200,9 +200,7 @@ function virarTodasAsCartas(){
 
     if (dadosJogo.jaViradas.length != 0){
         dadosJogo.jaViradas.forEach(card => {
-            card.classList.add("notransition");
-            // card.style.transform = "rotateY(0)";
-            // card.style.transition = "transform 0s";
+            card.style.transform = "rotateY(0)";
             card.className = "cards";
             card.children[0].className = "front";
             card.children[1].className = "back";
