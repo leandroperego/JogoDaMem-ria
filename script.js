@@ -2,27 +2,44 @@ let backs = document.querySelectorAll(".back");
 let board = document.querySelector("#board");
 
 let numeroDeImagens = 10;
-let arrayNumeros = criarArrayNumerica(1, numeroDeImagens);
+let arrayNumeros;
+let dadosJogo = {};
+dadosJogo.jaViradas = [];
+dadosJogo.cartasViradas = [];
+let verificarFim = null;
 
-let dadosJogo = {
-    cartasViradas : [],
-    bloquearCliques: false,
-    jaViradas: [],
-}
+novoJogo();
 
-iniciarTempo();
-setarImagensNasDivs();
+document.querySelector("#btnNovoJogo").addEventListener(`click`, novoJogo);
+//-------------------------------------------------------------
 
-backs.forEach(back => {
-        back.parentElement.addEventListener(`click`, acaoDoJogo);
-});
-
-let verificarFim = setInterval(() => {
-    if(verificarJogoAcabou()){
-        clearInterval(verificarFim);
-        alert("Parabéns");
+function novoJogo(){
+    virarTodasAsCartas();
+    arrayNumeros = criarArrayNumerica(1, numeroDeImagens);
+    zerarTodosInterval();
+    dadosJogo = {
+        cartasViradas : [],
+        bloquearCliques: false,
+        jaViradas: [],
+        intervalTempoRodando : null,
+        tempoDeJogo: {minutos, segundos},
     }
-}, 500);
+
+    iniciarTempo();
+    setTimeout(setarImagensNasDivs,500);
+
+    backs.forEach(back => {
+        back.parentElement.addEventListener(`click`, acaoDoJogo);
+    });
+
+    verificarFim = setInterval(() => {
+        if(verificarJogoAcabou()){
+            clearInterval(verificarFim);
+            alert(`Parabéns! Você levou ${dadosJogo.tempoDeJogo.minutos} minutos e ${dadosJogo.tempoDeJogo.segundos} segundos. Será que você consegue um tempo menor? Clique em novo jogo e boa sorte`);
+            pararTempo();
+        }
+    }, 500);
+}
 
 function acaoDoJogo(){
     
@@ -73,7 +90,6 @@ function verificarJogo(){
             dadosJogo.cartasViradas.push(back);
         }
     });
-    console.log(qtasViradas)
     return qtasViradas == 2;
 }
 
@@ -127,10 +143,11 @@ function sortear(limite){
 }
 
 function iniciarTempo(){
+    zerarTempo();
     let spanMinutos = document.querySelector("#minutos");
     let spanSegundos = document.querySelector("#segundos");
 
-    setInterval(function(){
+    dadosJogo.intervalTempoRodando = setInterval(function(){
         let segundos = +spanSegundos.textContent;
         let minutos = +spanMinutos.textContent;
         
@@ -151,5 +168,44 @@ function iniciarTempo(){
                 spanMinutos.textContent = minutos;
             }
         }
+        dadosJogo.tempoDeJogo.minutos = minutos;
+        dadosJogo.tempoDeJogo.segundos = segundos;
     },1000);
+}
+
+function zerarTempo(){
+    document.querySelector("#minutos").textContent = "00";
+    document.querySelector("#segundos").textContent = "00";
+
+}
+
+function pararTempo(){
+    clearInterval(dadosJogo.intervalTempoRodando);
+    return dadosJogo.tempoDeJogo;
+}
+
+function zerarTodosInterval(){
+    if (dadosJogo.intervalTempoRodando != null) clearInterval(dadosJogo.intervalTempoRodando);
+
+    if (verificarFim != null) clearInterval(verificarFim);
+}
+
+function virarTodasAsCartas(){
+
+    if(dadosJogo.cartasViradas.length != 0){
+        dadosJogo.cartasViradas.forEach(card => {
+            card.parentElement.style.transform = "rotateY(0)";
+        });
+    }
+
+    if (dadosJogo.jaViradas.length != 0){
+        dadosJogo.jaViradas.forEach(card => {
+            card.classList.add("notransition");
+            // card.style.transform = "rotateY(0)";
+            // card.style.transition = "transform 0s";
+            card.className = "cards";
+            card.children[0].className = "front";
+            card.children[1].className = "back";
+        });
+    }
 }
