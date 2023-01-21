@@ -64,7 +64,10 @@ footer{
     width: calc(100%/4);
     position: relative;
     transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
     transition: all 400ms ease-in-out;
+    -webkit-perspective: 500px;
+    perspective: 500px;
 }
 
 .flip{
@@ -79,6 +82,8 @@ footer{
     box-shadow: 10px 10px 8px 0px rgba(0,0,0,0.63);
 -webkit-box-shadow: 10px 10px 8px 0px rgba(0,0,0,0.63);
 -moz-box-shadow: 10px 10px 8px 0px rgba(0,0,0,0.63);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 .front{
@@ -90,7 +95,6 @@ footer{
 .back{
     border-radius: 10px;
     transform: rotateY(180deg);
-    backface-visibility: hidden;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
