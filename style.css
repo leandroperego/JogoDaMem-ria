@@ -65,6 +65,7 @@ footer{
     transition: all 400ms ease-in-out;
     -webkit-perspective: 500px;
     perspective: 500px;
+    cursor: pointer;
 }
 
 .flip{
@@ -116,4 +117,16 @@ footer{
     box-shadow: 10px 10px 8px 0px rgba(0,0,0,0.63);
     -webkit-box-shadow: 10px 10px 8px 0px rgba(0,0,0,0.63);
     -moz-box-shadow: 10px 10px 8px 0px rgba(0,0,0,0.63);
+}
+
+@media (min-width:1000px){
+
+    .linha{
+        width: 60%;
+    }
+
+    #board{
+        justify-content: center;
+        align-items: center;
+    }
 }
